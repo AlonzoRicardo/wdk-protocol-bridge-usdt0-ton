@@ -1,8 +1,7 @@
 {
     "include": [
       "index.js",
-      "src/wallet-manager-ton.js",
-      "src/wallet-account-ton.js"
+      "src/usdt0-protocol-ton.js"
     ],
     "compilerOptions": {
       "target": "ES2015",

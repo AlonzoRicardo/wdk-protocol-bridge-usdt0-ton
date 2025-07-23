@@ -13,17 +13,12 @@
 // limitations under the License.
 'use strict'
 
-// /** @typedef {import('@wdk/wallet').FeeRates} FeeRates */
-// /** @typedef {import('@wdk/wallet').KeyPair} KeyPair */
-// /** @typedef {import('@wdk/wallet').TransactionResult} TransactionResult */
-// /** @typedef {import('@wdk/wallet').TransferOptions} TransferOptions */
-// /** @typedef {import('@wdk/wallet').TransferResult} TransferResult */
+/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
 
-// /** @typedef {import('./src/wallet-account-ton.js').TonClientConfig} TonClientConfig */
-// /** @typedef {import('./src/wallet-account-ton.js').TonWalletConfig} TonWalletConfig */
-// /** @typedef {import('./src/wallet-account-ton.js').TonTransaction} TonTransaction */
-// /** @typedef {import('./src/wallet-account-ton.js').TonTransactionReceipt} TonTransactionReceipt */
+/** @typedef {import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig} OftBridgeConfig */
+
+/** @typedef {import('./src/usdt0-protocol-ton.js').BridgeOptions} BridgeOptions */
+/** @typedef {import('./src/usdt0-protocol-ton.js').BridgeResult} BridgeResult */
+/** @typedef {import('./src/usdt0-protocol-ton.js').BridgeQuote} BridgeQuote */
 
 export { default } from './src/usdt0-protocol-ton.js'
-
-// export { default as WalletAccountTon } from './src/wallet-account-ton.js'
