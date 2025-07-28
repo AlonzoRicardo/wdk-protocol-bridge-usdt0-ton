@@ -98,9 +98,11 @@ describe('Usdt0ProtocolTon', () => {
       it('should successfully bridge a token to another blockchain', async () => {
         const result = await protocol.bridge(mockOptions)
 
-        expect(result).toHaveProperty('hash', '6d6f636b5f68617368')
-        expect(result).toHaveProperty('fee', 1000n)
-        expect(result).toHaveProperty('bridgeFee')
+        expect(result).toEqual({
+          hash: '6d6f636b5f68617368',
+          fee: 1000,
+          bridgeFee: 1000
+        })
 
         expect(mockAccount._tonClient.open).toHaveBeenCalled()
         const walletContract = mockAccount._tonClient.open.mock.results[0].value
@@ -118,9 +120,12 @@ describe('Usdt0ProtocolTon', () => {
       it('should successfully quote a bridge operation', async () => {
         const result = await protocol.quoteBridge(mockOptions)
 
-        expect(result).toHaveProperty('hash', null)
-        expect(result).toHaveProperty('fee', 1000n)
-        expect(result).toHaveProperty('bridgeFee')
+        expect(result).toEqual({
+          hash: null,
+          fee: 1000,
+          bridgeFee: 1000
+        })
+
         const walletContract = mockAccount._tonClient.open.mock.results[0].value
         expect(walletContract.send).not.toHaveBeenCalled()
       })
@@ -146,9 +151,12 @@ describe('Usdt0ProtocolTon', () => {
       it('should successfully bridge a token to another blockchain', async () => {
         const result = await protocol.bridge(mockOptions, mockConfig)
 
-        expect(result).toHaveProperty('hash', '6d6f636b5f68617368')
-        expect(result).toHaveProperty('fee', 500000)
-        expect(result).toHaveProperty('bridgeFee')
+        expect(result).toEqual({
+          hash: '6d6f636b5f68617368',
+          fee: 500000,
+          bridgeFee: 1000
+        })
+
         expect(mockAccount._tonApiClient.gasless.gaslessSend).toHaveBeenCalled()
       })
 
@@ -168,9 +176,11 @@ describe('Usdt0ProtocolTon', () => {
       it('should successfully quote a bridge operation', async () => {
         const result = await protocol.quoteBridge(mockOptions, mockConfig)
 
-        expect(result).toHaveProperty('hash', null)
-        expect(result).toHaveProperty('fee', 500000)
-        expect(result).toHaveProperty('bridgeFee')
+        expect(result).toEqual({
+          hash: null,
+          fee: 500000,
+          bridgeFee: 1000
+        })
         expect(mockAccount._tonApiClient.gasless.gaslessSend).not.toHaveBeenCalled()
       })
 

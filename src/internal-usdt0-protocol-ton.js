@@ -93,6 +93,6 @@ export default class InternalUsdt0ProtocolTon extends BaseUsdt0ProtocolTon {
     const { source_fees: { in_fwd_fee, storage_fee, gas_fee, fwd_fee } } =
       await this._account._tonClient.estimateExternalMessageFee(this._account._wallet.address, { body: transfer })
 
-    return in_fwd_fee + storage_fee + gas_fee + fwd_fee
+    return Number(in_fwd_fee + storage_fee + gas_fee + fwd_fee)
   }
 }
