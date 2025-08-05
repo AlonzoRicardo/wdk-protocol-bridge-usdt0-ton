@@ -13,7 +13,7 @@
 // limitations under the License.
 'use strict'
 
-import { AbstractBridgeProtocol } from '@wdk/wallet/protocols'
+import { BridgeProtocol } from '@wdk/wallet/protocols'
 import { replace } from 'lodash-es'
 import { Cell } from '@ton/ton'
 import { parseTonAddress } from '@wdk-ton-packages/ui-ton'
@@ -48,7 +48,7 @@ const BRIDGE_ULN_CONFIGS = [
   }
 ]
 
-export default class BaseUsdt0ProtocolTon extends AbstractBridgeProtocol {
+export default class BaseUsdt0ProtocolTon extends BridgeProtocol {
   constructor(account, config) {
     super(account, config)
   }
@@ -80,7 +80,7 @@ export default class BaseUsdt0ProtocolTon extends AbstractBridgeProtocol {
     const address = await this._account.getAddress()
     const decimals = oft.sharedDecimals
 
-    const jettonWalletAddress = await this._account._getJettonWalletAddress(token)
+    const jettonWalletAddress = await this._account._tonAccount._getJettonWalletAddress(token)
     if (!jettonWalletAddress) {
       throw new Error('Jetton wallet address not found.')
     }
@@ -90,7 +90,7 @@ export default class BaseUsdt0ProtocolTon extends AbstractBridgeProtocol {
 
   async _getBridgeBody(input, oftBridgeConfig) {
     const bridgeHelper = new OftBridgeApiFactory__ton(
-      this._account._tonClient,
+      this._account._tonAccount._tonClient,
       BRIDGE_ADDRESS_CONFIG,
       BRIDGE_ULN_CONFIGS
     ).create(oftBridgeConfig)

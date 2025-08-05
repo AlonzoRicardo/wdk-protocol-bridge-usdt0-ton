@@ -78,7 +78,7 @@ export default class InternalUsdt0ProtocolTon extends BaseUsdt0ProtocolTon {
     await walletContract.send(transfer)
 
     return {
-      hash: this._account._getHash(internalMessage).toString('hex'),
+      hash: this._account._getMessageHash(internalMessage).toString('hex'),
       fee: estimatedGas,
       bridgeFee: this._getContractFee(amount)
     }

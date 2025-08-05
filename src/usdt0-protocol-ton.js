@@ -13,7 +13,7 @@
 // limitations under the License.
 'use strict'
 
-import { AbstractBridgeProtocol } from '@wdk/wallet/protocols'
+import { BridgeProtocol } from '@wdk/wallet/protocols'
 import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
 import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
 import InternalUsdt0ProtocolTonGasless from './internal-usdt0-protocol-ton-gasless.js'
@@ -46,9 +46,9 @@ import InternalUsdt0ProtocolTonGasless from './internal-usdt0-protocol-ton-gasle
 
 /**
  * USDT0 Protocol implementation for TON blockchain bridge operations.
- * Extends AbstractBridgeProtocol to provide token bridging functionality.
+ * Extends BridgeProtocol to provide token bridging functionality.
  */
-export default class Usdt0ProtocolTon extends AbstractBridgeProtocol {
+export default class Usdt0ProtocolTon extends BridgeProtocol {
   /**
    * Creates a new USDT0 Protocol TON instance.
    * @param {import('@wdk/wallet/protocols').IWalletAccount} account - The wallet account to use to interact with the protocol.

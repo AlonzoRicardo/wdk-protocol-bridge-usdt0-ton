@@ -81,7 +81,7 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
     await this._sendGaslessTransaction(gaslessParams, token)
 
     return {
-      hash: this._account._getHash(internalMessage).toString('hex'),
+      hash: this._account._tonAccount._getMessageHash(internalMessage).toString('hex'),
       fee: gasCostInPaymasterToken,
       bridgeFee: this._getContractFee(amount)
     }
@@ -100,10 +100,10 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
       throw new Error('Not enough jetton master balance.')
     }
 
-    const contract = this._account._tonClient.open(this._account._wallet)
+    const contract = this._account._tonAccount._tonClient.open(this._account._tonAccount._wallet)
     const seqno = await contract.getSeqno()
 
-    const transfer = this._account._wallet.createTransfer({
+    const transfer = this._account._tonAccount._wallet.createTransfer({
       seqno,
       authType: 'internal',
       timeout: Math.ceil(Date.now() / 1000) + 60,
@@ -130,18 +130,18 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
       )
       .endCell()
 
-    await this._account._tonApiClient.gasless.gaslessSend({
-      walletPublicKey: Buffer.from(keyPair.publicKey).toString('hex'),
-      boc: message
-    })
+    // await this._account._tonApiClient.gasless.gaslessSend({
+    //   walletPublicKey: Buffer.from(keyPair.publicKey).toString('hex'),
+    //   boc: message
+    // })
   }
 
   async _getGaslessEstimate (jettonMasterAddress, boc) {
     return await this._account._tonApiClient.gasless.gaslessEstimate(
       jettonMasterAddress,
       {
-        walletAddress: this._account._wallet.address,
-        walletPublicKey: Buffer.from(this._account._wallet.publicKey).toString('hex'),
+        walletAddress: this._account._tonAccount._wallet.address,
+        walletPublicKey: Buffer.from(this._account._tonAccount._wallet.publicKey).toString('hex'),
         messages: [{ boc }]
       }
     )
