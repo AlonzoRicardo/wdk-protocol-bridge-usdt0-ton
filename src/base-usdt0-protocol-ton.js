@@ -80,7 +80,7 @@ export default class BaseUsdt0ProtocolTon extends BridgeProtocol {
     const address = await this._account.getAddress()
     const decimals = oft.sharedDecimals
 
-    const jettonWalletAddress = await this._account._tonAccount._getJettonWalletAddress(token)
+    const jettonWalletAddress = await this._account._getJettonWalletAddress(token)
     if (!jettonWalletAddress) {
       throw new Error('Jetton wallet address not found.')
     }
@@ -90,7 +90,7 @@ export default class BaseUsdt0ProtocolTon extends BridgeProtocol {
 
   async _getBridgeBody(input, oftBridgeConfig) {
     const bridgeHelper = new OftBridgeApiFactory__ton(
-      this._account._tonAccount._tonClient,
+      this._account._tonClient,
       BRIDGE_ADDRESS_CONFIG,
       BRIDGE_ULN_CONFIGS
     ).create(oftBridgeConfig)

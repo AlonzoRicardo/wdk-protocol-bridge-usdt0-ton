@@ -21,7 +21,7 @@
  */
 /**
  * USDT0 Protocol implementation for TON blockchain bridge operations.
- * Extends AbstractBridgeProtocol to provide token bridging functionality.
+ * Extends BridgeProtocol to provide token bridging functionality.
  */
 export default class Usdt0ProtocolTon {
     /**
@@ -46,8 +46,8 @@ export default class Usdt0ProtocolTon {
      */
     quoteBridge(options: BridgeOptions): Promise<any>;
 }
-export type BridgeProtocolConfig = any;
-export type OftBridgeConfig = any;
+export type BridgeProtocolConfig = import('@wdk/wallet/protocols').BridgeProtocolConfig;
+export type OftBridgeConfig = import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig;
 export type BridgeOptions = {
     /**
      * - The identifier of the destination blockchain (e.g., "arbitrum").

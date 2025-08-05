@@ -1,10 +1,10 @@
-import { jest } from '@jest/globals'
+import { describe, it, expect, beforeEach, jest } from '@jest/globals'
 import { Address, Cell } from '@ton/ton'
 import BaseUsdt0ProtocolTon from '../src/base-usdt0-protocol-ton.js'
 import Usdt0ProtocolTon from '../src/usdt0-protocol-ton.js'
 import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
 
-const mockTransferCell = new Cell();
+const mockTransferCell = new Cell()
 const TOKEN_ADDRESS = 'EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs'
 const RECIPIENT_ADDRESS = 'UQCfu7DHKCYwqiohPFVQxjp45DDW3-tWSo-eIigNoZBaqOfQ'
 const SENDER_ADDRESS = 'UQAMM7wsXH_0T7aLFJvyD1RS_KBSt6AqGV8c4i_2PUMscnoY'
@@ -26,7 +26,7 @@ const mockTonClient = {
       fwd_fee: 400n
     }
   })
-};
+}
 
 const mockTonApiClient = {
   gasless: {
@@ -60,11 +60,11 @@ const getMockRegularAccount = () => ({
 })
 
 const getMockGaslessAccount = () => {
-  const account = getMockRegularAccount();
-  Object.setPrototypeOf(account, WalletAccountTonGasless.prototype);
-  account._tonApiClient = mockTonApiClient;
-  account.getTokenBalance = jest.fn().mockResolvedValue(999999999999);
-  return account;
+  const account = getMockRegularAccount()
+  Object.setPrototypeOf(account, WalletAccountTonGasless.prototype)
+  account._tonApiClient = mockTonApiClient
+  account.getTokenBalance = jest.fn().mockResolvedValue(999999999999)
+  return account
 }
 
 describe('Usdt0ProtocolTon', () => {
@@ -72,7 +72,7 @@ describe('Usdt0ProtocolTon', () => {
     recipient: RECIPIENT_ADDRESS,
     targetChain: 'ethereum',
     token: TOKEN_ADDRESS,
-    amount: '1000000',
+    amount: '1000000'
   }
 
   const mockConfig = {
@@ -82,7 +82,7 @@ describe('Usdt0ProtocolTon', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    BaseUsdt0ProtocolTon.prototype._getBridgeBody.mockClear();
+    BaseUsdt0ProtocolTon.prototype._getBridgeBody.mockClear()
   })
 
   describe('Regular (Non-Gasless)', () => {
