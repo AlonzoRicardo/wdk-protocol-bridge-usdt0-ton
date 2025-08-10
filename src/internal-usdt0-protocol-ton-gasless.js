@@ -70,26 +70,27 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
       message
     )
 
-    const gasCostInPaymasterToken = Number(gaslessParams.commission)
+    const bridgeFee = this._getContractFee(amount)
+    const fee = Number(gaslessParams.commission)
 
-    if (bridgeMaxFee && gasCostInPaymasterToken >= bridgeMaxFee) {
+    if (bridgeMaxFee && (fee + bridgeFee) >= bridgeMaxFee) {
       throw new Error('The bridge operation exceeds the bridge max fee.')
     }
 
     if (simulate) {
       return {
         hash: null,
-        fee: gasCostInPaymasterToken,
-        bridgeFee: this._getContractFee(amount)
+        fee,
+        bridgeFee
       }
     }
 
     await this._sendGaslessTransaction(gaslessParams, token)
 
     return {
-      hash: this._tonAccount._getMessageHash(internalMessage).toString('hex'),
-      fee: gasCostInPaymasterToken,
-      bridgeFee: this._getContractFee(amount)
+      hash: this._account._tonAccount._getMessageHash(internalMessage).toString('hex'),
+      fee,
+      bridgeFee
     }
   }
 
