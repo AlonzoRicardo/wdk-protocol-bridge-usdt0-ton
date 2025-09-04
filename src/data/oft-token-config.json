@@ -26,7 +26,7 @@
           "address": "0x14e4a1b13bf7f943c8ff7c51fb60fa964a298d92"
         },
         "oftNative": {
-          "address": "0x238A52455a1EF6C987CaC94b28B4081aFE50ba06"
+          "address": "0x77652D5aba086137b595875263FC200182919B92"
         },
         "token": {
           "chainKey": "arbitrum",
@@ -39,7 +39,7 @@
       "ton": {
         "eid": 30343,
         "oftProxy": {
-          "address": "0x170725394aa56136fbd27d0ce31d8a98e0f8ae72a4d2379b5dde83e211a2d5fa"
+          "address": "0x1ddf580052174ed1dd0d66c35bfdc1a5fcc69af4f4ae36154b13dcfc6c14a35f"
         },
         "token": {
           "chainKey": "ton",

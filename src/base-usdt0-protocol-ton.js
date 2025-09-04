@@ -25,28 +25,37 @@ import OFT_TOKEN_CONFIG from './data/oft-token-config.json' with { type: 'json' 
 const BRIDGE_FEE_BASIS_POINTS = 10n
 const BASIS_POINTS_DENOMINATOR = 10_000n
 
+// const BRIDGE_ADDRESS_CONFIG = {
+//   oftProxy: '0x1ddf580052174ed1dd0d66c35bfdc1a5fcc69af4f4ae36154b13dcfc6c14a35f',
+//   controller: '0x1eb2bbea3d8c0d42ff7fd60f0264c866c934bbff727526ca759e7374cae0c166',
+//   ulnManager: '0x150645746e25be5486eb3b2f5d98b44c6b324697c48d495d059f96fc9d3ec368',
+//   token: '0xb113a994b5024a16719f69139328eb759596c38a25f59028b146fecdc3621dfe',
+//   executor: ''
+// }
+
 const BRIDGE_ADDRESS_CONFIG = {
-  oftProxy: '0x170725394aa56136fbd27d0ce31d8a98e0f8ae72a4d2379b5dde83e211a2d5fa',
+  oftProxy: '0x1ddf580052174ed1dd0d66c35bfdc1a5fcc69af4f4ae36154b13dcfc6c14a35f',
   controller: '0x1eb2bbea3d8c0d42ff7fd60f0264c866c934bbff727526ca759e7374cae0c166',
-  ulnManager: '0x150645746e25be5486eb3b2f5d98b44c6b324697c48d495d059f96fc9d3ec368',
+  ulnManager: '0x06b52b11abaf65bf1ff47c57e890ba4ad6a75a68859bbe5a51c1fc451954c54c',
   token: '0xb113a994b5024a16719f69139328eb759596c38a25f59028b146fecdc3621dfe',
-  executor: ''
+  executor: '0x0f9a60ea29c5c9e4643601e8881e850498ee680a413e8ba01d5e55ce1c221024'
 }
 
-const BRIDGE_ULN_CONFIGS = [
+const BRIDGE_ULN_CONFIGS = {
+  USDT_TON_ARBITRUM:
   {
-    confirmations: '5',
+    confirmations: '2',
     confirmationsNull: false,
     executor: '0x0',
     executorNull: true,
-    maxMessageBytes: '42',
+    maxMessageBytes: '522',
     optionalDVNs: [],
     optionalDVNsNull: false,
     requiredDVNs: ['0xd122dec4ec8bd66c68344faf0dd471d727a7d57a21b62051705bbe2e4c272a7'],
     requiredDVNsNull: false,
     workerQuoteGasLimit: '120000'
   }
-]
+}
 
 export default class BaseUsdt0ProtocolTon extends BridgeProtocol {
   constructor(account, config) {

@@ -26,6 +26,7 @@ export default class InternalUsdt0ProtocolTon extends BaseUsdt0ProtocolTon {
 
     const body = await this._getBridgeBody(
       {
+        srcChainKey: 'ton',
         dstChainKey: targetChain,
         srcAddress: address,
         srcToken: { chainKey: 'ton' },
