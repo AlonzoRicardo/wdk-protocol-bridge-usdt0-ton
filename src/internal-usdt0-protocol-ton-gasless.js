@@ -18,7 +18,7 @@ import { Address, beginCell, storeMessageRelaxed, toNano, internal, external, Se
 import { Coin, CurrencyAmount, Token } from '@wdk-ton-packages/ui-core'
 import { createOftBridgeConfig } from '@wdk-ton-packages/ui-bridge-oft'
 
-const DUMMY_MESSAGE_VALUE = toNano(0.5)
+const DUMMY_MESSAGE_VALUE = toNano(0.8)
 
 export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTon {
   constructor (account, config) {
@@ -32,6 +32,7 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
 
     const body = await this._getBridgeBody(
       {
+        srcChainKey: 'ton',
         dstChainKey: targetChain,
         srcAddress: address,
         srcToken: { chainKey: 'ton' },
@@ -88,7 +89,7 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
     await this._sendGaslessTransaction(gaslessParams, token)
 
     return {
-      hash: this._account._tonAccount._getMessageHash(internalMessage).toString('hex'),
+      hash: this._tonAccount._getMessageHash(internalMessage).toString('hex'),
       fee,
       bridgeFee
     }
@@ -137,7 +138,7 @@ export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTo
       )
       .endCell()
 
-    await this._account._tonApiClient.gasless.gaslessSend({
+    await this._gaslessAccount._tonApiClient.gasless.gaslessSend({
       walletPublicKey: Buffer.from(keyPair.publicKey).toString('hex'),
       boc: message
     })

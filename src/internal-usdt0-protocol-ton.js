@@ -18,7 +18,7 @@ import { internal, SendMode, toNano } from '@ton/ton'
 import { Coin, CurrencyAmount, Token } from '@wdk-ton-packages/ui-core'
 import { createOftBridgeConfig } from '@wdk-ton-packages/ui-bridge-oft'
 
-const DUMMY_MESSAGE_VALUE = toNano(0.5)
+const DUMMY_MESSAGE_VALUE = toNano(0.8)
 
 export default class InternalUsdt0ProtocolTon extends BaseUsdt0ProtocolTon {
   async bridge ({ recipient, targetChain, token, amount, oft, simulate = false }) {

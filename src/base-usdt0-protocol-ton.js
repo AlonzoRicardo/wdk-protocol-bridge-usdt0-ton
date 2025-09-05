@@ -25,13 +25,6 @@ import OFT_TOKEN_CONFIG from './data/oft-token-config.json' with { type: 'json' 
 const BRIDGE_FEE_BASIS_POINTS = 10n
 const BASIS_POINTS_DENOMINATOR = 10_000n
 
-// const BRIDGE_ADDRESS_CONFIG = {
-//   oftProxy: '0x1ddf580052174ed1dd0d66c35bfdc1a5fcc69af4f4ae36154b13dcfc6c14a35f',
-//   controller: '0x1eb2bbea3d8c0d42ff7fd60f0264c866c934bbff727526ca759e7374cae0c166',
-//   ulnManager: '0x150645746e25be5486eb3b2f5d98b44c6b324697c48d495d059f96fc9d3ec368',
-//   token: '0xb113a994b5024a16719f69139328eb759596c38a25f59028b146fecdc3621dfe',
-//   executor: ''
-// }
 
 const BRIDGE_ADDRESS_CONFIG = {
   oftProxy: '0x1ddf580052174ed1dd0d66c35bfdc1a5fcc69af4f4ae36154b13dcfc6c14a35f',

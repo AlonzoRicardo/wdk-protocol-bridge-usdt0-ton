@@ -56,13 +56,15 @@ const getMockRegularAccount = () => ({
   getAddress: jest.fn().mockResolvedValue(SENDER_ADDRESS),
   getTokenBalance: jest.fn().mockResolvedValue(1000000000),
   _getJettonWalletAddress: jest.fn().mockResolvedValue(SENDER_ADDRESS),
-  _getHash: jest.fn().mockReturnValue(Buffer.from('mock_hash'))
+  _getMessageHash: jest.fn().mockReturnValue(Buffer.from('mock_hash'))
 })
 
 const getMockGaslessAccount = () => {
+  const regularAccount = getMockRegularAccount()
   const account = getMockRegularAccount()
   Object.setPrototypeOf(account, WalletAccountTonGasless.prototype)
   account._tonApiClient = mockTonApiClient
+  account._tonAccount = regularAccount
   account.getTokenBalance = jest.fn().mockResolvedValue(999999999999)
   return account
 }
