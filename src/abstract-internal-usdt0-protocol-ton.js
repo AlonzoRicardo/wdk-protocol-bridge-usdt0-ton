@@ -167,7 +167,9 @@ export default class AbstractInternalUsdt0ProtocolTon extends BridgeProtocol {
 
     const transfer = await bridgeHelper.transfer({ ...input, fee: { nativeFee } })
     const data = await transfer.unwrap()
-    const body = data.messages[0].payload
+    const boc = data.messages[0].payload.toBoc()
+
+    const body = Cell.fromBoc(boc)[0]
 
     return {
       to: jettonWalletAddress,
