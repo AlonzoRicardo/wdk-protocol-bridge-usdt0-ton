@@ -191,7 +191,7 @@ export default class AbstractInternalUsdt0ProtocolTon extends BridgeProtocol {
 
     const dstAmountMin = CurrencyAmount.fromRawAmount(
       Token.from({ chainKey: targetChain, decimals: oftBridgeConfig.sharedDecimals }),
-      amount - this._getContractFee(amount)
+      BigInt(amount) - this._getContractFee(amount)
     )
 
     const dstNativeAmount = CurrencyAmount.fromRawAmount(
