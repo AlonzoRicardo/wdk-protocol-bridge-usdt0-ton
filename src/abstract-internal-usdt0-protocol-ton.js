@@ -22,7 +22,7 @@ import { createOftBridgeConfig } from '@wdk-ton-packages/ui-bridge-oft'
 // eslint-disable-next-line camelcase
 import { OftBridgeApiFactory__ton } from '@wdk-ton-packages/ui-bridge-oft/ton'
 
-import { toNano } from '@ton/ton'
+import { Cell, toNano } from '@ton/ton'
 
 const BRIDGE_FEE_BASIS_POINTS = 10n
 
