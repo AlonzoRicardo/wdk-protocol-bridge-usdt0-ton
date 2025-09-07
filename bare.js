@@ -13,12 +13,8 @@
 // limitations under the License.
 'use strict'
 
-/** @typedef {import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig} OftBridgeConfig */
+import 'bare-wdk-runtime'
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
+export * from './index.js' with { imports: 'bare-wdk-runtime/package' }
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeOptions} BridgeOptions */
-
-/** @typedef {import('./src/usdt0-protocol-ton.js').Usdt0BridgeOptions} Usdt0BridgeOptions */
-
-export { default } from './src/usdt0-protocol-ton.js'
+export { default } from './index.js' with { imports: 'bare-wdk-runtime/package' }

@@ -11,147 +11,66 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 'use strict'
 
-import BaseUsdt0ProtocolTon from './base-usdt0-protocol-ton.js'
-import { Address, beginCell, storeMessageRelaxed, toNano, internal, external, SendMode, storeMessage } from '@ton/ton'
-import { Coin, CurrencyAmount, Token } from '@wdk-ton-packages/ui-core'
-import { createOftBridgeConfig } from '@wdk-ton-packages/ui-bridge-oft'
+import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
 
-const DUMMY_MESSAGE_VALUE = toNano(0.8)
+import { internal } from '@ton/ton'
 
-export default class InternalUsdt0ProtocolTonGasless extends BaseUsdt0ProtocolTon {
+import AbstractInternalUsdt0ProtocolTon from './abstract-internal-usdt0-protocol-ton.js'
+
+export default class InternalUsdt0ProtocolTonGasless extends AbstractInternalUsdt0ProtocolTon {
   constructor (account, config) {
     super(account._tonAccount, config)
+
     this._gaslessAccount = account
-    this._tonAccount = account._tonAccount
   }
 
-  async bridge ({ recipient, targetChain, token, amount, oft, simulate = false }, config) {
-    const { oft: preparedOft, address, decimals, jettonWalletAddress } = await this._prepareBridge({ recipient, targetChain, token, amount, oft })
+  async bridge ({ recipient, targetChain, token, amount, oft }, config) {
+    if (!(this._gaslessAccount instanceof WalletAccountTonGasless)) {
+      throw new Error("The 'bridge(options)' method requires the protocol to be initialized with a non read-only account.")
+    }
 
-    const body = await this._getBridgeBody(
-      {
-        srcChainKey: 'ton',
-        dstChainKey: targetChain,
-        srcAddress: address,
-        srcToken: { chainKey: 'ton' },
-        dstToken: { chainKey: targetChain },
-        srcAmount: CurrencyAmount.fromRawAmount(
-          Token.from({ chainKey: 'ton', decimals }),
-          amount
-        ),
-        dstAddress: this._parseAddressToHex(recipient),
-        dstAmountMin: CurrencyAmount.fromRawAmount(
-          Token.from({ chainKey: targetChain, decimals }),
-          this._subtractContractFeeFromAmount(amount)
-        ),
-        dstNativeAmount: CurrencyAmount.fromRawAmount(
-          Coin.from({ chainKey: targetChain, decimals: 0 }),
-          0
-        )
-      },
-      createOftBridgeConfig(preparedOft)
-    )
+    const { paymasterToken } = config ?? this._gaslessAccount._config
 
-    const { paymasterToken, bridgeMaxFee } = config ?? this._config
+    const { bridgeMaxFee } = config ?? this._config
 
-    const internalMessage = internal({
-      to: jettonWalletAddress,
-      value: DUMMY_MESSAGE_VALUE,
-      body
-    })
+    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
-    const message = beginCell()
-      .storeWritable(storeMessageRelaxed(internalMessage))
-      .endCell()
+    const message = internal(txParams)
 
-    const gaslessParams = await this._getGaslessEstimate(
-      Address.parse(paymasterToken.address),
-      message
-    )
-
+    const rawParams = await this._gaslessAccount._getGaslessTokenTransferRawParams(message, { paymasterToken })
+    const fee = rawParams.commission
     const bridgeFee = this._getContractFee(amount)
-    const fee = Number(gaslessParams.commission)
 
-    if (bridgeMaxFee && (fee + bridgeFee) >= bridgeMaxFee) {
+    if (bridgeMaxFee !== undefined && fee + bridgeFee >= bridgeMaxFee) {
       throw new Error('The bridge operation exceeds the bridge max fee.')
     }
 
-    if (simulate) {
-      return {
-        hash: null,
-        fee,
-        bridgeFee
-      }
-    }
-
-    await this._sendGaslessTransaction(gaslessParams, token)
+    await this._gaslessAccount._sendGaslessTokenTransfer(rawParams)
 
     return {
-      hash: this._tonAccount._getMessageHash(internalMessage).toString('hex'),
+      hash: this._account._getMessageHash(message),
       fee,
       bridgeFee
     }
   }
 
-  async quoteBridge (options, config) {
-    return await this.bridge({ ...options, simulate: true }, config)
-  }
+  async quoteBridge ({ targetChain, recipient, token, amount, oft }, config) {
+    const { paymasterToken } = config ?? this._gaslessAccount._config
 
-  async _sendGaslessTransaction (gaslessParams, token) {
-    const { keyPair } = this._account
+    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
-    const jettonMasterBalance = await this._account.getTokenBalance(token)
+    const message = internal(txParams)
 
-    if (jettonMasterBalance < Number(gaslessParams.commission)) {
-      throw new Error('Not enough jetton master balance.')
+    const rawParams = await this._gaslessAccount._getGaslessTokenTransferRawParams(message, { paymasterToken })
+    const fee = rawParams.commission
+    const bridgeFee = this._getContractFee(amount)
+
+    return {
+      fee,
+      bridgeFee
     }
-
-    const contract = this._tonAccount._tonClient.open(this._tonAccount._wallet)
-    const seqno = await contract.getSeqno()
-
-    const transfer = this._tonAccount._wallet.createTransfer({
-      seqno,
-      authType: 'internal',
-      timeout: Math.ceil(Date.now() / 1000) + 60,
-      secretKey: keyPair.privateKey,
-      sendMode: SendMode.PAY_GAS_SEPARATELY + SendMode.IGNORE_ERRORS,
-      messages: gaslessParams.messages.map(message =>
-        internal({
-          to: message.address,
-          value: BigInt(message.amount),
-          body: message.payload
-        })
-      )
-    })
-
-    const message = beginCell()
-      .storeWritable(
-        storeMessage(
-          external({
-            init: seqno === 0 ? contract.init : undefined,
-            to: contract.address,
-            body: transfer
-          })
-        )
-      )
-      .endCell()
-
-    await this._gaslessAccount._tonApiClient.gasless.gaslessSend({
-      walletPublicKey: Buffer.from(keyPair.publicKey).toString('hex'),
-      boc: message
-    })
-  }
-
-  async _getGaslessEstimate (jettonMasterAddress, boc) {
-    return await this._gaslessAccount._tonApiClient.gasless.gaslessEstimate(
-      jettonMasterAddress,
-      {
-        walletAddress: this._tonAccount._wallet.address,
-        walletPublicKey: Buffer.from(this._tonAccount._wallet.publicKey).toString('hex'),
-        messages: [{ boc }]
-      }
-    )
   }
 }

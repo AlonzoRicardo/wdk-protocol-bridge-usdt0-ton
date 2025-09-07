@@ -11,60 +11,66 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 'use strict'
 
 import { BridgeProtocol } from '@wdk/wallet/protocols'
-import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
-import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
-import InternalUsdt0ProtocolTonGasless from './internal-usdt0-protocol-ton-gasless.js'
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
+import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton-gasless'
+
+import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
+
+import InternalUsdt0ProtocolTonGasless from './internal-usdt0-protocol-ton-gasless.js'
 
 /** @typedef {import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig} OftBridgeConfig */
 
+/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
+/** @typedef {import('@wdk/wallet/protocols').BridgeOptions} BridgeOptions */
+/** @typedef {import('@wdk/wallet/protocols').BridgeResult} BridgeResult */
+
+/** @typedef {import('@wdk/wallet-ton').WalletAccountTon} WalletAccountTon */
+
+/** @typedef {import('@wdk/wallet-ton-gasless').WalletAccountReadOnlyTonGasless} WalletAccountReadOnlyTonGasless */
+/** @typedef {import('@wdk/wallet-ton-gasless').WalletAccountTonGasless} WalletAccountTonGasless */
+/** @typedef {import('@wdk/wallet-ton-gasless').TonGaslessWalletConfig} TonGaslessWalletConfig */
+
 /**
- * @typedef {Object} BridgeOptions
- * @property {string} targetChain - The identifier of the destination blockchain (e.g., "arbitrum").
- * @property {string} token - The address of the token to bridge.
- * @property {string} recipient - The address of the recipient.
- * @property {number} amount - The amount of tokens to bridge to the destination chain (in base unit).
+ * @typedef {BridgeOptions} Usdt0BridgeOptions
  * @property {OftBridgeConfig} [oft] - If set, overrides the default oft config for the token to bridge. Users may use this argument to bridge jetton tokens that are not natively supported.
  */
 
-/**
- * @typedef {Object} BridgeResult
- * @property {string} hash - The hash of the bridge operation.
- * @property {number} fee - The gas cost.
- * @property {number} bridgeFee - The bridge cost in the bridged token.
- */
-
-/**
- * @typedef {Object} BridgeQuote
- * @property {number} fee - The gas cost.
- * @property {number} bridgeFee - The bridge cost in the bridged token.
- */
-
-/**
- * USDT0 Protocol implementation for TON blockchain bridge operations.
- * Extends BridgeProtocol to provide token bridging functionality.
- */
 export default class Usdt0ProtocolTon extends BridgeProtocol {
   /**
-   * Creates a new USDT0 Protocol TON instance.
-   * @param {import('@wdk/wallet/protocols').IWalletAccount} account - The wallet account to use to interact with the protocol.
+   * Creates a new read-only interface to the usdt0 protocol for the ton blockchain.
+   *
+   * @overload
+   * @param {WalletAccountReadOnlyTon | WalletAccountReadOnlyTonGasless} account - The wallet account to use to interact with the protocol.
+   * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
+   */
+
+  /**
+   * Creates a new interface to the usdt0 protocol for the ton blockchain.
+   *
+   * @overload
+   * @param {WalletAccountTon | WalletAccountTonGasless} account - The wallet account to use to interact with the protocol.
    * @param {BridgeProtocolConfig} [config] - The bridge protocol configuration.
    */
   constructor (account, config) {
     super(account, config)
-    this._underlyingProtocol = account instanceof WalletAccountTonGasless
-      ? new InternalUsdt0ProtocolTonGasless(account, config)
-      : new InternalUsdt0ProtocolTon(account, config)
+
+    /** @private */
+    this._underlyingProtocol = account instanceof WalletAccountReadOnlyTon
+      ? new InternalUsdt0ProtocolTon(account, config)
+      : new InternalUsdt0ProtocolTonGasless(account, config)
   }
 
   /**
    * Bridges a token to a different blockchain.
-   * @param {BridgeOptions} options - The bridge's options.
-   * @param {Pick<BridgeProtocolConfig, 'bridgeMaxFee', 'paymasterToken'>} [config] - If set, overrides the 'bridgeMaxFee' and 'paymasterToken' options defined in the manager configuration.
+   *
+   * @param {Usdt0BridgeOptions} options - The bridge's options.
+   * @param {Pick<TonGaslessWalletConfig, 'paymasterToken'> & Pick<BridgeProtocolConfig, 'bridgeMaxFee'>} [config] - If the protocol has
+   *   been initialized with a gasless wallet account, overrides the 'paymasterToken' option defined in its configuration and the
+   *   'bridgeMaxFee' option defined in the protocol configuration.
    * @returns {Promise<BridgeResult>} The bridge's result.
    */
   async bridge (options, config) {
@@ -73,11 +79,13 @@ export default class Usdt0ProtocolTon extends BridgeProtocol {
 
   /**
    * Quotes the costs of a bridge operation.
-   * @param {BridgeOptions} options - The bridge's options.
-   * @param {Pick<BridgeProtocolConfig, 'bridgeMaxFee', 'paymasterToken'>} [config] - If set, overrides the 'bridgeMaxFee' and 'paymasterToken' options defined in the manager configuration.
-   * @throws {Error} When quote calculation fails or validation fails.
+   *
+   * @param {Usdt0BridgeOptions} options - The bridge's options.
+   * @param {Pick<TonGaslessWalletConfig, 'paymasterToken'>} [config] - If the protocol has been initialized with a gasless
+   *   wallet account, overrides the 'paymasterToken' option defined in its configuration.
+   * @returns {Promise<Omit<BridgeResult, 'hash'>>} The bridge's quotes.
    */
-  async quoteBridge (options) {
-    return await this._underlyingProtocol.quoteBridge(options)
+  async quoteBridge (options, config) {
+    return await this._underlyingProtocol.quoteBridge(options, config)
   }
 }

@@ -13,87 +13,59 @@
 // limitations under the License.
 'use strict'
 
-import BaseUsdt0ProtocolTon from './base-usdt0-protocol-ton.js'
-import { internal, SendMode, toNano } from '@ton/ton'
-import { Coin, CurrencyAmount, Token } from '@wdk-ton-packages/ui-core'
-import { createOftBridgeConfig } from '@wdk-ton-packages/ui-bridge-oft'
+import { WalletAccountTon } from '@wdk/wallet-ton'
 
-const DUMMY_MESSAGE_VALUE = toNano(0.8)
+import { internal } from '@ton/ton'
 
-export default class InternalUsdt0ProtocolTon extends BaseUsdt0ProtocolTon {
-  async bridge ({ recipient, targetChain, token, amount, oft, simulate = false }) {
-    const { oft: preparedOft, address, decimals, jettonWalletAddress } = await this._prepareBridge({ recipient, targetChain, token, amount, oft })
+import AbstractInternalUsdt0ProtocolTon from './abstract-internal-usdt0-protocol-ton.js'
 
-    const body = await this._getBridgeBody(
-      {
-        srcChainKey: 'ton',
-        dstChainKey: targetChain,
-        srcAddress: address,
-        srcToken: { chainKey: 'ton' },
-        dstToken: { chainKey: targetChain },
-        srcAmount: CurrencyAmount.fromRawAmount(
-          Token.from({ chainKey: 'ton', decimals }),
-          amount
-        ),
-        dstAddress: this._parseAddressToHex(recipient),
-        dstAmountMin: CurrencyAmount.fromRawAmount(
-          Token.from({ chainKey: targetChain, decimals }),
-          this._subtractContractFeeFromAmount(amount)
-        ),
-        dstNativeAmount: CurrencyAmount.fromRawAmount(
-          Coin.from({ chainKey: targetChain, decimals: 0 }),
-          0
-        )
-      },
-      createOftBridgeConfig(preparedOft)
-    )
-
-    const internalMessage = internal({
-      to: jettonWalletAddress,
-      value: DUMMY_MESSAGE_VALUE,
-      body
-    })
-
-    const { keyPair, _wallet, _tonClient } = this._account
-    const walletContract = _tonClient.open(_wallet)
-    const seqno = await walletContract.getSeqno()
-
-    const transfer = walletContract.createTransfer({
-      secretKey: keyPair.privateKey,
-      seqno,
-      messages: [internalMessage],
-      sendMode: SendMode.PAY_GAS_SEPARATELY | SendMode.IGNORE_ERRORS,
-      timeout: Math.floor(Date.now() / 1000) + 60
-    })
-
-    const estimatedGas = await this._getTransferFee(transfer)
-
-    if (simulate) {
-      return {
-        hash: null,
-        fee: estimatedGas,
-        bridgeFee: this._getContractFee(amount)
-      }
+export default class InternalUsdt0ProtocolTon extends AbstractInternalUsdt0ProtocolTon {
+  async bridge ({ targetChain, recipient, token, amount, oft }) {
+    if (!(this._account instanceof WalletAccountTon)) {
+      throw new Error("The 'bridge(options)' method requires the protocol to be initialized with a non read-only account.")
     }
 
-    await walletContract.send(transfer)
+    if (!this._account._tonClient) {
+      throw new Error('The wallet must be connected to ton center in order to perform bridge operations.')
+    }
+
+    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
+
+    const message = internal(txParams)
+
+    const transfer = await this._account._getTransfer(message)
+    const fee = await this._account._getTransferFee(transfer)
+    const bridgeFee = this._getContractFee(amount)
+
+    if (this._config.bridgeMaxFee !== undefined && fee + bridgeFee >= this._config.bridgeMaxFee) {
+      throw new Error('The bridge operation exceeds the bridge max fee.')
+    }
+
+    await this._account._contract.send(transfer)
 
     return {
-      hash: this._account._getMessageHash(internalMessage).toString('hex'),
-      fee: estimatedGas,
-      bridgeFee: this._getContractFee(amount)
+      hash: this._account._getMessageHash(message),
+      fee,
+      bridgeFee
     }
   }
 
-  async quoteBridge (options) {
-    return await this.bridge({ ...options, simulate: true })
-  }
+  async quoteBridge ({ targetChain, recipient, token, amount, oft }) {
+    if (!this._account._tonClient) {
+      throw new Error('The wallet must be connected to ton center in order to quote bridge operations.')
+    }
 
-  async _getTransferFee (transfer) {
-    /* eslint-disable camelcase */
-    const { source_fees: { in_fwd_fee, storage_fee, gas_fee, fwd_fee } } =
-      await this._account._tonClient.estimateExternalMessageFee(this._account._wallet.address, { body: transfer })
+    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
-    return Number(in_fwd_fee + storage_fee + gas_fee + fwd_fee)
+    const message = internal(txParams)
+
+    const transfer = await this._account._getTransfer(message)
+    const fee = await this._account._getTransferFee(transfer)
+    const bridgeFee = this._getContractFee(amount)
+
+    return {
+      fee,
+      bridgeFee
+    }
   }
 }
