@@ -22,7 +22,7 @@ import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
 
 export default class InternalUsdt0ProtocolTonGasless extends InternalUsdt0ProtocolTon {
   constructor (account, config) {
-    super(account._tonAccount, config)
+    super(account._tonAccount ?? account._tonReadOnlyAccount, config)
 
     this._gaslessAccount = account
   }
