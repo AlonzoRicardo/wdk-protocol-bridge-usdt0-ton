@@ -18,9 +18,9 @@ import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
 
 import { internal } from '@ton/ton'
 
-import AbstractInternalUsdt0ProtocolTon from './abstract-internal-usdt0-protocol-ton.js'
+import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
 
-export default class InternalUsdt0ProtocolTonGasless extends AbstractInternalUsdt0ProtocolTon {
+export default class InternalUsdt0ProtocolTonGasless extends InternalUsdt0ProtocolTon {
   constructor (account, config) {
     super(account._tonAccount, config)
 
