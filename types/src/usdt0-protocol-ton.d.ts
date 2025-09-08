@@ -47,3 +47,4 @@ export type WalletAccountTonGasless = import("@wdk/wallet-ton-gasless").WalletAc
 export type TonGaslessWalletConfig = import("@wdk/wallet-ton-gasless").TonGaslessWalletConfig;
 export type Usdt0BridgeOptions = BridgeOptions;
 import { BridgeProtocol } from '@wdk/wallet/protocols';
+import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton';

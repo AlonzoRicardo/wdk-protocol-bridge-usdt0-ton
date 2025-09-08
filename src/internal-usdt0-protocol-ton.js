@@ -67,7 +67,7 @@ export default class InternalUsdt0ProtocolTon extends BridgeProtocol {
       throw new Error('The wallet must be connected to ton center in order to perform bridge operations.')
     }
 
-    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
+    const txParams = await this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
     const message = internal(txParams)
 
@@ -93,7 +93,7 @@ export default class InternalUsdt0ProtocolTon extends BridgeProtocol {
       throw new Error('The wallet must be connected to ton center in order to quote bridge operations.')
     }
 
-    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
+    const txParams = await this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
     const message = internal(txParams)
 

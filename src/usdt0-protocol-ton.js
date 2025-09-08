@@ -16,7 +16,8 @@
 
 import { BridgeProtocol } from '@wdk/wallet/protocols'
 
-import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton-gasless'
+import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton'
+import { WalletAccountReadOnlyTonGasless } from '@wdk/wallet-ton-gasless'
 
 import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
 

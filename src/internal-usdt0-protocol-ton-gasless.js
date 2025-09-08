@@ -36,7 +36,7 @@ export default class InternalUsdt0ProtocolTonGasless extends InternalUsdt0Protoc
 
     const { bridgeMaxFee } = config ?? this._config
 
-    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
+    const txParams = await this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
     const message = internal(txParams)
 
@@ -60,7 +60,7 @@ export default class InternalUsdt0ProtocolTonGasless extends InternalUsdt0Protoc
   async quoteBridge ({ targetChain, recipient, token, amount, oft }, config) {
     const { paymasterToken } = config ?? this._gaslessAccount._config
 
-    const txParams = this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
+    const txParams = await this._getBridgeTxParams({ targetChain, recipient, token, amount, oft })
 
     const message = internal(txParams)
 
