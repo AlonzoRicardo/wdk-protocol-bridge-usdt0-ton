@@ -2,7 +2,14 @@
   "name": "@wdk/protocol-bridge-usdt0-ton",
   "version": "1.0.0-beta.1",
   "description": "A simple package that lets @wdk/wallet-ton and wallet-ton-gasless wallet accounts interact with the usdt0 protocol.",
-  "keywords": ["wdk", "protocol", "bridge", "usdt0", "ton", "gasless"],
+  "keywords": [
+    "wdk",
+    "protocol",
+    "bridge",
+    "usdt0",
+    "ton",
+    "gasless"
+  ],
   "author": "Tether",
   "license": "Apache-2.0",
   "repository": {
@@ -36,11 +43,14 @@
     "typescript": "5.8.3"
   },
   "overrides": {
+    "axios": "1.12.2",
     "@ton/core": "0.59.1",
     "mipd": "0.1.0-canary.20231012T134656",
     "0xsequence": {
       "ethers": "5.7.2"
-    }
+    },
+    "form-data": "4.0.4",
+    "tsup": "8.5.0"
   },
   "exports": {
     ".": {
