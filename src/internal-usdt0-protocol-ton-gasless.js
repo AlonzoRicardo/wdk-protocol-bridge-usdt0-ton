@@ -14,7 +14,7 @@
 
 'use strict'
 
-import { WalletAccountTonGasless } from '@wdk/wallet-ton-gasless'
+import { WalletAccountTonGasless } from '@tetherto/wdk-wallet-ton-gasless'
 
 import { internal } from '@ton/ton'
 

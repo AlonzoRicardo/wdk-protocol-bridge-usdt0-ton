@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, jest } from '@jest/globals'
-import { WalletAccountTonGasless as WalletAccountTonGaslessInterface } from '@wdk/wallet-ton-gasless'
+import { WalletAccountTonGasless as WalletAccountTonGaslessInterface } from '@tetherto/wdk-wallet-ton-gasless'
 
 jest.unstable_mockModule('../src/internal-usdt0-protocol-ton.js', () => ({
   __esModule: true,
@@ -17,11 +17,11 @@ jest.unstable_mockModule('../src/internal-usdt0-protocol-ton-gasless.js', () => 
   })),
 }))
 
-jest.unstable_mockModule('@wdk/wallet-ton', () => ({
+jest.unstable_mockModule('@tetherto/wdk-wallet-ton', () => ({
   WalletAccountReadOnlyTon: class WalletAccountReadOnlyTon { },
 }))
 
-const { WalletAccountReadOnlyTon } = await import('@wdk/wallet-ton')
+const { WalletAccountReadOnlyTon } = await import('@tetherto/wdk-wallet-ton')
 const { default: Usdt0ProtocolTon } = await import('../src/usdt0-protocol-ton.js')
 const { default: InternalUsdt0ProtocolTonGaslessMock } = await import('../src/internal-usdt0-protocol-ton-gasless.js')
 const { default: InternalUsdt0ProtocolTonMock } = await import('../src/internal-usdt0-protocol-ton.js')

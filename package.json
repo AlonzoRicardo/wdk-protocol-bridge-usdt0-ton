@@ -1,8 +1,15 @@
 {
-  "name": "@wdk/protocol-bridge-usdt0-ton",
+  "name": "@tetherto/wdk-protocol-bridge-usdt0-ton",
   "version": "1.0.0-beta.1",
-  "description": "A simple package that lets @wdk/wallet-ton and wallet-ton-gasless wallet accounts interact with the usdt0 protocol.",
-  "keywords": ["wdk", "protocol", "bridge", "usdt0", "ton", "gasless"],
+  "description": "A simple package that lets @tetherto/wdk-wallet-ton and wallet-ton-gasless wallet accounts interact with the usdt0 protocol.",
+  "keywords": [
+    "wdk",
+    "protocol",
+    "bridge",
+    "usdt0",
+    "ton",
+    "gasless"
+  ],
   "author": "Tether",
   "license": "Apache-2.0",
   "repository": {
@@ -19,11 +26,11 @@
     "test:coverage": "cross-env NODE_OPTIONS=--experimental-vm-modules jest --coverage"
   },
   "dependencies": {
-    "@ton/ton": "15.2.1",
+    "@tetherto/wdk-wallet": "^1.0.0-beta.1",
+    "@tetherto/wdk-wallet-ton": "^1.0.0-beta.2",
+    "@tetherto/wdk-wallet-ton-gasless": "^1.0.0-beta.1",
     "@ton/core": "0.59.1",
-    "@wdk/wallet": "https://github.com/davi0kprogramsthings/wdk-wallet.git#develop",
-    "@wdk/wallet-ton": "https://github.com/davi0kprogramsthings/wdk-wallet-ton.git#develop",
-    "@wdk/wallet-ton-gasless": "https://github.com/davi0kprogramsthings/wdk-wallet-ton-gasless.git#develop",
+    "@ton/ton": "15.2.1",
     "@wdk-ton-packages/ui-bridge-oft": "1.0.0-canary.6",
     "@wdk-ton-packages/ui-core": "1.0.0-canary.3",
     "@wdk-ton-packages/ui-ton": "1.0.0-canary.5",
@@ -51,6 +58,10 @@
     "./package": {
       "default": "./package.json"
     }
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://registry.npmjs.org/"
   },
   "standard": {
     "ignore": [
