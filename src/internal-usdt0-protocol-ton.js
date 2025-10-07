@@ -13,9 +13,9 @@
 // limitations under the License.
 'use strict'
 
-import { BridgeProtocol } from '@wdk/wallet/protocols'
+import { BridgeProtocol } from '@tetherto/wdk-wallet/protocols'
 
-import { WalletAccountTon } from '@wdk/wallet-ton'
+import { WalletAccountTon } from '@tetherto/wdk-wallet-ton'
 
 import { Coin, CurrencyAmount, Token } from '@wdk-ton-packages/ui-core'
 import { parseTonAddress } from '@wdk-ton-packages/ui-ton'

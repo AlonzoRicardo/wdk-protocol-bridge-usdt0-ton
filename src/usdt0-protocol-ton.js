@@ -14,9 +14,9 @@
 
 'use strict'
 
-import { BridgeProtocol } from '@wdk/wallet/protocols'
+import { BridgeProtocol } from '@tetherto/wdk-wallet/protocols'
 
-import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton'
+import { WalletAccountReadOnlyTon } from '@tetherto/wdk-wallet-ton'
 
 import InternalUsdt0ProtocolTon from './internal-usdt0-protocol-ton.js'
 
@@ -24,15 +24,15 @@ import InternalUsdt0ProtocolTonGasless from './internal-usdt0-protocol-ton-gasle
 
 /** @typedef {import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig} OftBridgeConfig */
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
-/** @typedef {import('@wdk/wallet/protocols').BridgeOptions} BridgeOptions */
-/** @typedef {import('@wdk/wallet/protocols').BridgeResult} BridgeResult */
+/** @typedef {import('@tetherto/wdk-wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
+/** @typedef {import('@tetherto/wdk-wallet/protocols').BridgeOptions} BridgeOptions */
+/** @typedef {import('@tetherto/wdk-wallet/protocols').BridgeResult} BridgeResult */
 
-/** @typedef {import('@wdk/wallet-ton').WalletAccountTon} WalletAccountTon */
+/** @typedef {import('@tetherto/wdk-wallet-ton').WalletAccountTon} WalletAccountTon */
 
-/** @typedef {import('@wdk/wallet-ton-gasless').WalletAccountReadOnlyTonGasless} WalletAccountReadOnlyTonGasless */
-/** @typedef {import('@wdk/wallet-ton-gasless').WalletAccountTonGasless} WalletAccountTonGasless */
-/** @typedef {import('@wdk/wallet-ton-gasless').TonGaslessWalletConfig} TonGaslessWalletConfig */
+/** @typedef {import('@tetherto/wdk-wallet-ton-gasless').WalletAccountReadOnlyTonGasless} WalletAccountReadOnlyTonGasless */
+/** @typedef {import('@tetherto/wdk-wallet-ton-gasless').WalletAccountTonGasless} WalletAccountTonGasless */
+/** @typedef {import('@tetherto/wdk-wallet-ton-gasless').TonGaslessWalletConfig} TonGaslessWalletConfig */
 
 /**
  * @typedef {BridgeOptions} Usdt0BridgeOptions
