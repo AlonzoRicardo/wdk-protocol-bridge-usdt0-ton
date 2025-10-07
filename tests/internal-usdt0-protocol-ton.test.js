@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, jest, test } from '@jest/globals'
-import { WalletAccountTon } from '@wdk/wallet-ton'
+import { WalletAccountTon } from '@tetherto/wdk-wallet-ton'
 
 const getMessageFeeMock = jest.fn()
 const transferMock = jest.fn()
