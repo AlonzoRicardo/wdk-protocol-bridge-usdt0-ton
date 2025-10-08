@@ -1,6 +1,6 @@
 {
   "name": "@tetherto/wdk-protocol-bridge-usdt0-ton",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "A simple package that lets @tetherto/wdk-wallet-ton and wallet-ton-gasless wallet accounts interact with the usdt0 protocol.",
   "keywords": [
     "wdk",
@@ -63,7 +63,7 @@
     }
   },
   "publishConfig": {
-    "access": "restricted",
+    "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
   "standard": {
