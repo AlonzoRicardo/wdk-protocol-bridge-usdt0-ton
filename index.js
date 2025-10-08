@@ -15,9 +15,9 @@
 
 /** @typedef {import('@wdk-ton-packages/ui-bridge-oft/types').OftBridgeConfig} OftBridgeConfig */
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
+/** @typedef {import('@tetherto/wdk-wallet/protocols').BridgeProtocolConfig} BridgeProtocolConfig */
 
-/** @typedef {import('@wdk/wallet/protocols').BridgeOptions} BridgeOptions */
+/** @typedef {import('@tetherto/wdk-wallet/protocols').BridgeOptions} BridgeOptions */
 
 /** @typedef {import('./src/usdt0-protocol-ton.js').Usdt0BridgeOptions} Usdt0BridgeOptions */
 

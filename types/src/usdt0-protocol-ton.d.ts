@@ -38,13 +38,13 @@ export default class Usdt0ProtocolTon extends BridgeProtocol {
     quoteBridge(options: Usdt0BridgeOptions, config?: Pick<TonGaslessWalletConfig, "paymasterToken">): Promise<Omit<BridgeResult, "hash">>;
 }
 export type OftBridgeConfig = import("@wdk-ton-packages/ui-bridge-oft/types").OftBridgeConfig;
-export type BridgeProtocolConfig = import("@wdk/wallet/protocols").BridgeProtocolConfig;
-export type BridgeOptions = import("@wdk/wallet/protocols").BridgeOptions;
-export type BridgeResult = import("@wdk/wallet/protocols").BridgeResult;
-export type WalletAccountTon = import("@wdk/wallet-ton").WalletAccountTon;
-export type WalletAccountReadOnlyTonGasless = import("@wdk/wallet-ton-gasless").WalletAccountReadOnlyTonGasless;
-export type WalletAccountTonGasless = import("@wdk/wallet-ton-gasless").WalletAccountTonGasless;
-export type TonGaslessWalletConfig = import("@wdk/wallet-ton-gasless").TonGaslessWalletConfig;
+export type BridgeProtocolConfig = import("@tetherto/wdk-wallet/protocols").BridgeProtocolConfig;
+export type BridgeOptions = import("@tetherto/wdk-wallet/protocols").BridgeOptions;
+export type BridgeResult = import("@tetherto/wdk-wallet/protocols").BridgeResult;
+export type WalletAccountTon = import("@tetherto/wdk-wallet-ton").WalletAccountTon;
+export type WalletAccountReadOnlyTonGasless = import("@tetherto/wdk-wallet-ton-gasless").WalletAccountReadOnlyTonGasless;
+export type WalletAccountTonGasless = import("@tetherto/wdk-wallet-ton-gasless").WalletAccountTonGasless;
+export type TonGaslessWalletConfig = import("@tetherto/wdk-wallet-ton-gasless").TonGaslessWalletConfig;
 export type Usdt0BridgeOptions = BridgeOptions;
-import { BridgeProtocol } from '@wdk/wallet/protocols';
-import { WalletAccountReadOnlyTon } from '@wdk/wallet-ton';
+import { BridgeProtocol } from '@tetherto/wdk-wallet/protocols';
+import { WalletAccountReadOnlyTon } from '@tetherto/wdk-wallet-ton';
