@@ -44,7 +44,6 @@
   },
   "overrides": {
     "axios": "1.12.2",
-    "@ton/core": "0.59.1",
     "mipd": "0.1.0-canary.20231012T134656",
     "0xsequence": {
       "ethers": "5.7.2"
