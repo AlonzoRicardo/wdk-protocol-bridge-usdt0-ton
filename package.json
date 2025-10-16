@@ -27,10 +27,10 @@
   },
   "dependencies": {
     "@tetherto/wdk-wallet": "^1.0.0-beta.1",
-    "@tetherto/wdk-wallet-ton": "^1.0.0-beta.2",
+    "@tetherto/wdk-wallet-ton": "github:nampc1/wdk-wallet-ton#update-bare-node-runtime",
     "@tetherto/wdk-wallet-ton-gasless": "^1.0.0-beta.1",
-    "@ton/core": "0.59.1",
-    "@ton/ton": "15.2.1",
+    "@ton/core": "0.62.0",
+    "@ton/ton": "15.3.1",
     "@wdk-ton-packages/ui-bridge-oft": "1.0.0-canary.6",
     "@wdk-ton-packages/ui-core": "1.0.0-canary.3",
     "@wdk-ton-packages/ui-ton": "1.0.0-canary.5",
@@ -43,7 +43,6 @@
     "typescript": "5.8.3"
   },
   "overrides": {
-    "@ton/core": "0.59.1",
     "mipd": "0.1.0-canary.20231012T134656",
     "0xsequence": {
       "ethers": "5.7.2"
