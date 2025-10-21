@@ -27,8 +27,8 @@
   },
   "dependencies": {
     "@tetherto/wdk-wallet": "^1.0.0-beta.1",
-    "@tetherto/wdk-wallet-ton": "^1.0.0-beta.3",
-    "@tetherto/wdk-wallet-ton-gasless": "^1.0.0-beta.1",
+    "@tetherto/wdk-wallet-ton": "github:AlonzoRicardo/wdk-wallet-ton#test-ton-core-version",
+    "@tetherto/wdk-wallet-ton-gasless": "github:AlonzoRicardo/wdk-wallet-ton-gasless#test-ton-core-version",
     "@ton/core": "0.59.1",
     "@ton/ton": "15.1.0",
     "@wdk-ton-packages/ui-bridge-oft": "1.0.0-canary.6",
