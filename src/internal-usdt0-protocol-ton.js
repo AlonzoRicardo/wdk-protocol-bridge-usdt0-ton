@@ -43,6 +43,18 @@ const BRIDGE_ADDRESS_CONFIG = {
 }
 
 const BRIDGE_ULN_CONFIGS = {
+  USDT_TON_ETHEREUM: {
+    confirmations: '2',
+    confirmationsNull: false,
+    executor: '0x0', 
+    executorNull: true,
+    maxMessageBytes: '522',
+    optionalDVNs: [],
+    optionalDVNsNull: false,
+    requiredDVNs: ['0xd122dec4ec8bd66c68344faf0dd471d727a7d57a21b62051705bbe2e4c272a7', '0x4b9f9836004d7f53e52e01602d9c07c14cdf38b8a946b6e813cfea8de10927d'],
+    requiredDVNsNull: false,
+    workerQuoteGasLimit: '120000'
+  },
   USDT_TON_ARBITRUM: {
     confirmations: '2',
     confirmationsNull: false,
@@ -51,7 +63,7 @@ const BRIDGE_ULN_CONFIGS = {
     maxMessageBytes: '522',
     optionalDVNs: [],
     optionalDVNsNull: false,
-    requiredDVNs: ['0xd122dec4ec8bd66c68344faf0dd471d727a7d57a21b62051705bbe2e4c272a7'],
+    requiredDVNs: ['0xd122dec4ec8bd66c68344faf0dd471d727a7d57a21b62051705bbe2e4c272a7', '0x4b9f9836004d7f53e52e01602d9c07c14cdf38b8a946b6e813cfea8de10927d'],
     requiredDVNsNull: false,
     workerQuoteGasLimit: '120000'
   }

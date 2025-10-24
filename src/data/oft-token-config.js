@@ -26,7 +26,7 @@ export default {
           address: '0x6c96de32cea08842dcc4058c14d3aaad7fa41dee'
         },
         oftNative: {
-          address: '0x811ed79dB9D34E83BDB73DF6c3e07961Cfb0D5c0'
+          address: '0x1F748c76dE468e9D11bd340fA9D5CBADf315dFB0'
         },
         token: {
           chainKey: 'ethereum',
