@@ -82,7 +82,7 @@ export default class InternalUsdt0ProtocolTon extends BridgeProtocol {
     await this._account._contract.send(transfer)
 
     return {
-      hash: this._account._getMessageHash(message),
+      hash: transfer.hash().toString('hex'),
       fee,
       bridgeFee
     }

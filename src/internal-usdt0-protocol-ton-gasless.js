@@ -48,10 +48,10 @@ export default class InternalUsdt0ProtocolTonGasless extends InternalUsdt0Protoc
       throw new Error('The bridge operation exceeds the bridge max fee.')
     }
 
-    await this._gaslessAccount._sendGaslessTokenTransfer(rawParams)
+    const hash = await this._gaslessAccount._sendGaslessTokenTransfer(rawParams)
 
     return {
-      hash: this._account._getMessageHash(message),
+      hash,
       fee,
       bridgeFee
     }
